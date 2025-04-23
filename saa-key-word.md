@@ -187,7 +187,7 @@
 
 ---
 
-# 🌐 AWS 網路相關服務總覽
+# 🌐 AWS 網路相關服務
 
 | 服務 | 🔑 關鍵字 | 🚀 用途說明 |
 |------|----------|-------------|
@@ -223,4 +223,18 @@
 | 多地流量切換、容錯 | ✅ Route 53 Failover Routing |
 | 封包層級防火牆 | ✅ NACL（Stateless） |
 
+---
+
+## 🚨  Least Amount of Downtime 策略
+
+| 策略 / 工具 | 關鍵字 | 說明 |
+|-------------|---------|------|
+| 📍 多可用區部署 | Multi-AZ | 將服務部署於多個 AZ，避免單點故障 |
+| 🌍 DNS Failover | Route 53 + 健康檢查 | 自動偵測服務失效並切換到備援資源 |
+| 💽 資料同步備援 | RDS Multi-AZ、Aurora Cluster | 提供即時資料同步，容錯切換快速 |
+| ☁ 無伺服器架構 | Lambda、API Gateway | 減少基礎設施維運，提高可靠性 |
+| 🔁 負載平衡 | ALB / NLB | 自動將流量導向可用資源 |
+| 🛠 部署策略 | Blue/Green、Canary | 降低升級過程導致的中斷 |
+| 🛡 災難恢復規劃 | Backup、S3 Replication | 預備備份與跨區備援機制 |
+| ⚙ CI/CD 自動部署 | CodePipeline、GitHub Actions | 快速回復與回滾更新 |
 
