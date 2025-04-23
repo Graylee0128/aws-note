@@ -234,6 +234,9 @@
 | 💽 資料同步備援 | RDS Multi-AZ、Aurora Cluster | 提供即時資料同步，容錯切換快速 |
 | ☁ 無伺服器架構 | Lambda、API Gateway | 減少基礎設施維運，提高可靠性 |
 | 🔁 負載平衡 | ALB / NLB | 自動將流量導向可用資源 |
+| 🛠 部署策略 | Blue/Green、Canary | 降低升級過程導致的中斷 |
+| 🛡 災難恢復規劃 | Backup、S3 Replication | 預備備份與跨區備援機制 |
+| ⚙ CI/CD 自動部署 | CodePipeline、GitHub Actions | 快速回復與回滾更新 |
 
 ---
 
@@ -250,7 +253,3 @@
 - ✅ 同質遷移（MySQL ➝ Aurora MySQL）：只用 DMS 即可。
 - ✅ 異質遷移（Oracle ➝ PostgreSQL）：需先用 SCT 轉換 schema，再用 DMS 搬資料。
 - ✅ SCT 也可偵測哪些 schema 不能自動轉換，並提示你手動修改。
-| 🛠 部署策略 | Blue/Green、Canary | 降低升級過程導致的中斷 |
-| 🛡 災難恢復規劃 | Backup、S3 Replication | 預備備份與跨區備援機制 |
-| ⚙ CI/CD 自動部署 | CodePipeline、GitHub Actions | 快速回復與回滾更新 |
-
