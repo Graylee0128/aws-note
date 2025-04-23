@@ -136,3 +136,90 @@
 | 🚚 搬很多 TB 資料但沒有網路 | ❄ Snowball / Snowcone |
 | 🔁 線上同步 NAS 或 SMB Server 上的檔案 | 🔁 DataSync |
 | 🔄 將 MySQL / Oracle 等資料庫搬到 AWS 上（幾乎不中斷） | 🛠 DMS |
+
+---
+
+# 🔐 AWS 各種 Policy 類型比較
+
+| 種類 | 🎯 作用範圍 | 📌 關鍵詞 | 🔑 功能與用途 | 🧠 備註 |
+|------|--------------|-----------|----------------|----------|
+| 🧑‍💼 **IAM Policy** | 作用於 IAM 使用者、群組、角色 | `Allow / Deny`、細粒度控制 | 控制個別帳號或角色的存取權限 | 最常見、最細緻的控制方式 |
+| 🏛 **Service Control Policy (SCP)** | AWS Organizations 中的帳號（OU） | `Max Permissions`、強制限制 | 控制子帳號最大可得權限（即使 IAM 有寫 Allow 也無效） | 適用於企業、集中式管理帳號權限 |
+| 📦 **Resource-based Policy** | 直接加在資源（如 S3、Lambda）上 | `Principal` 可為別人 | 控制誰可以操作此資源 | 典型例子：S3 Bucket Policy、Lambda Policy |
+| 🚪 **Permission Boundary** | 限制 IAM Role/User 的權限邊界 | `Max Permissions` for Role | 給 IAM Role/User 設一個「不可超越」的上限 | 比 SCP 更細緻，通常用在委派時（如 IAM 自助創建） |
+| 🛡 **ACL (Access Control List)** | S3 / VPC 特殊資源 | CIDR/IP、Account-level 存取 | 舊式權限控制方法，不建議再使用 | S3 ACL 現多以 bucket policy 取代 |
+
+
+## 🧠 比喻記憶小技巧：
+
+- **IAM Policy**：就像你公司主管幫**你這個人**設定能不能開某個門（最常見）
+- **SCP**：就像公司總部直接下令某些門就是**誰都不能開**（即使主管說可以）
+- **Resource Policy**：這個門自己裝了鎖，**只讓特定人開**
+- **Permission Boundary**：主管只能發給你某些等級的門卡（不能超過邊界）
+- **ACL**：舊式門禁清單，逐漸淘汰中
+
+---
+
+# 📦 AWS 支援 Resource-based Policy 的服務
+
+| 服務 | 🔑 可控資源 | 🚀 功能用途 |
+|------|--------------|----------------|
+| 🪣 **S3** | Bucket / Object | 常見的 bucket policy，控制哪些帳號/角色可存取 |
+| 🧠 **Lambda** | Function | 設定誰可以 invoke Lambda，特別是來自 API Gateway 或 EventBridge |
+| 💌 **SNS** | Topic | 控制哪些帳號可發佈/訂閱 SNS 訊息 |
+| 📨 **SQS** | Queue | 控制哪些帳號可以 send / receive message |
+| 🎥 **Kinesis** | Stream / Firehose | 控制哪些帳號可以讀/寫串流資料 |
+| 📁 **EFS** | File System | 控制哪些 VPC / EC2 可 mount EFS（搭配 IAM） |
+| 📚 **Secrets Manager** | Secret | 控制哪些角色/帳號可讀取密鑰資訊 |
+| 📊 **CloudWatch Logs** | Log Group / Stream | 控制跨帳號是否可寫入 log |
+| 🔐 **KMS** | CMK (Customer Managed Key) | 控制哪些帳號可以使用加密金鑰 |
+| 🧾 **Glue Catalog** | Database / Table / Connection | 控制資料目錄的使用權限（分析任務） |
+| 🧭 **OpenSearch** | Domain | 控制誰能 query / ingest / 管理 OpenSearch 叢集 |
+
+## ✅ 特徵整理
+
+| 特徵 | 說明 |
+|------|------|
+| 📍 綁在資源上 | Resource-based policy 是「資源自己設的守門條件」 |
+| 👥 可跨帳號 | 支援 `Principal` 設定成其他帳號 IAM 使用者/角色 |
+| 🧱 常與 IAM 結合 | 最終效果 = IAM Policy + Resource-based Policy 的交集（AND） |
+| 🔒 無法用於所有服務 | 並非每個 AWS 服務都支援，主要是「被動接收」型服務才支援 |
+
+---
+
+# 🌐 AWS 網路相關服務總覽
+
+| 服務 | 🔑 關鍵字 | 🚀 用途說明 |
+|------|----------|-------------|
+| 🌐 **VPC (Virtual Private Cloud)** | 私有網路、自定義 IP、子網路 | 建立邏輯隔離的雲端網路環境 |
+| 🛣 **Route Table** | 路由規則、子網路導向 | 控制子網之間與網際網路的流量去向 |
+| 🚧 **NACL (Network ACL)** | 子網等級防火牆、Stateless | 對進出子網的 IP/Port 進行白名單/黑名單控制 |
+| 🛡 **Security Group** | EC2 防火牆、Stateful | 控制 EC2/ELB 等資源的進出連線規則 |
+| 🚪 **Internet Gateway (IGW)** | 公網連線、彈性 IP | 讓公網子網可連網際網路 |
+| 🚪 **NAT Gateway** | 私網出網、彈性 IP | 讓私有子網的 EC2 可連外但不可被連入 |
+| 🔁 **Transit Gateway (TGW)** | 多 VPC/本地整合、大規模路由 | 中央路由轉發器，可連接多個 VPC / VPN / Direct Connect |
+| 🌉 **VPC Peering** | 跨 VPC 溝通、點對點 | 連接兩個 VPC，低延遲私網通訊 |
+| 🕸 **PrivateLink / Endpoint** | 私網內部存取 AWS 服務 | 不經過網際網路即可存取 S3、DynamoDB 等 |
+| 🌐 **VPC Endpoint (Gateway / Interface)** | 對 AWS 服務的私網通道 | Gateway 給 S3/DynamoDB，Interface 給大多數服務 |
+| 🛰 **VPN Gateway (VGW)** | 本地連雲端 | VPN 隧道連接至 on-premise 資料中心 |
+| 🧭 **Customer Gateway (CGW)** | 本地端設備定義 | 定義 on-premise router/VPN device |
+| 🔗 **Direct Connect (DX)** | 專線、本地至 AWS | 高頻寬、低延遲連線（專屬網路） |
+| 🧭 **Global Accelerator (GA)** | 靜態 IP、跨區連線加速 | UDP 支援，提供多區 failover 與效能最佳化 |
+| 📡 **Route 53** | DNS、Failover、地理導向 | 可用性導向的網域名稱管理 |
+
+---
+
+## 📘 題目常見情境提示
+
+| 考點情境 | 建議服務 |
+|-----------|----------|
+| 多 VPC 要互通但獨立管理 | ✅ Transit Gateway |
+| 私網 EC2 想上網 | ✅ NAT Gateway |
+| 想將 S3 內嵌進私有 VPC | ✅ VPC Gateway Endpoint |
+| 本地端連 AWS 私網 | ✅ VPN Gateway / Direct Connect |
+| 想提升全球連線速度 | ✅ Global Accelerator |
+| 控制 EC2 連線來源 IP/Port | ✅ Security Group / NACL |
+| 多地流量切換、容錯 | ✅ Route 53 Failover Routing |
+| 封包層級防火牆 | ✅ NACL（Stateless） |
+
+
