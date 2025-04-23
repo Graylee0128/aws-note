@@ -234,6 +234,22 @@
 | 💽 資料同步備援 | RDS Multi-AZ、Aurora Cluster | 提供即時資料同步，容錯切換快速 |
 | ☁ 無伺服器架構 | Lambda、API Gateway | 減少基礎設施維運，提高可靠性 |
 | 🔁 負載平衡 | ALB / NLB | 自動將流量導向可用資源 |
+
+---
+
+## 📬 Snow Family 詳細比較
+
+| 服務 | 儲存容量 | 運算支援 | 使用案例 |
+|------|----------|----------|-----------|
+| Snowcone | 8TB | 基本 | 遠端辦公室、邊緣設備 |
+| Snowball Edge | 最多 80TB | EC2、Lambda | 遷移 + 邊緣運算 |
+| Snowmobile | 高達 100PB | 否 | 巨量資料搬遷（如影片伺服器） |
+
+## 🧰 DMS + SCT 搭配使用情境
+
+- ✅ 同質遷移（MySQL ➝ Aurora MySQL）：只用 DMS 即可。
+- ✅ 異質遷移（Oracle ➝ PostgreSQL）：需先用 SCT 轉換 schema，再用 DMS 搬資料。
+- ✅ SCT 也可偵測哪些 schema 不能自動轉換，並提示你手動修改。
 | 🛠 部署策略 | Blue/Green、Canary | 降低升級過程導致的中斷 |
 | 🛡 災難恢復規劃 | Backup、S3 Replication | 預備備份與跨區備援機制 |
 | ⚙ CI/CD 自動部署 | CodePipeline、GitHub Actions | 快速回復與回滾更新 |
