@@ -206,6 +206,7 @@
 | 🔗 **Direct Connect (DX)** | 專線、本地至 AWS | 高頻寬、低延遲連線（專屬網路） |
 | 🧭 **Global Accelerator (GA)** | 靜態 IP、跨區連線加速 | UDP 支援，提供多區 failover 與效能最佳化 |
 | 📡 **Route 53** | DNS、Failover、地理導向 | 可用性導向的網域名稱管理 |
+| 🔌 **ENI (Elastic Network Interface)** | 虛擬網卡、可掛載、IP/安全群組 | 為 EC2、Lambda、ECS 指定網路設定；支援快速故障轉移 |
 
 ---
 
